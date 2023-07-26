@@ -1,0 +1,95 @@
+-> npm init -y (Iniciar Projeto Node - (-y) -> Sim para Todos)
+-> npm install mongoose
+-> npm install --save-dev nodemon
+
+Mongo DB - Devclub:
+
+edgarraphaeldesousa
+xe7RW2GPNdNR2Bym
+
+-> npm install mongodb
+
+mongodb+srv://edgarraphaeldesousa:<password>@cluster0.7gskavr.mongodb.net/?retryWrites=true&w=majority
+
+
+DOCUMENTATION:
+
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://127.0.0.1:27017/test');
+
+const Cat = mongoose.model('Cat', { name: String });
+
+const kitty = new Cat({ name: 'Zildjian' });
+kitty.save().then(() => console.log('meow'));
+
+===============================================================================================
+
+
+
+
+import express from 'express'
+import mongoose from 'mongoose'
+
+import User from './models/User.js'
+
+const app = express()
+
+app.use(express.json())
+
+
+app.get('/users', async (request, response) => {
+
+    const users = await User.find()
+
+    return response.status(200).json(users)
+
+})
+
+
+app.post('/users', async (request, response) => {
+
+    const user = request.body
+
+    const newUser = await User.create(user)
+
+    return response.status(201).json(newUser)
+
+})
+
+
+mongoose
+    .connect('mongodb+srv://edgarraphaeldesousa:xe7RW2GPNdNR2Bym@cluster0.7gskavr.mongodb.net/?retryWrites=true&w=majority')
+    .then(() => console.log('🚀 Banco de Dados Conectado! 🚀'))
+    .catch(() => console.log('😭 Erro: Deu Ruim! 😭'))
+
+
+app.listen(3000)
+
+
+/*
+
+models/Users.js
+
+import mongoose from 'mongoose';
+
+const userSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true
+    },
+
+    age: {
+        type: Number,
+        required: true
+    },  
+
+    createdAt: {
+        type: Date,
+        default: Date.now()
+    }
+
+})
+
+export default mongoose.model('User', userSchema)
+*/
+
